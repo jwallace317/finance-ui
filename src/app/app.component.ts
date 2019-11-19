@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { DatabaseService } from './database.service';
-import { Stock } from './stock';
+import { Stock } from './model/stock';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
@@ -8,9 +8,9 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 am4core.useTheme(am4themes_animated);
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
 
@@ -20,7 +20,7 @@ export class AppComponent {
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      let chart = am4core.create("chartdiv", am4charts.XYChart);
+      let chart = am4core.create('chartdiv', am4charts.XYChart);
 
       chart.paddingRight = 20;
 
@@ -37,26 +37,23 @@ export class AppComponent {
                     d.close,
                     d.volume
                 )
-                console.log(stock)
 
                 // parse timestamp
-                let time_tokens = stock.timestamp.split(/-| |:/)
-                for (let i = 0; i < 6; i++) {
-                    console.log(time_tokens)
-                }
+                let time_tokens = stock.timestamp.split(/-| |:/);
 
-                let year = time_tokens[0]
-                let month = time_tokens[1] - 1
-                let day = time_tokens[2]
-                let hour = time_tokens[3]
-                let minute = time_tokens[4]
-                let second = time_tokens[5]
+                let year = Number(time_tokens[0]);
+                let month = Number(time_tokens[1]) - 1;
+                let day = Number(time_tokens[2]);
+                let hour = Number(time_tokens[3]);
+                let minute = Number(time_tokens[4]);
+                let second = Number(time_tokens[5]);
 
                 stocks.push({ date: new Date(year, month, day, hour, minute, second), name: stock.symbol, value: stock.open });
             }
-
-            console.log(stocks);
         });
+
+      console.log('hello')
+      console.log(stocks)
 
       chart.data = stocks;
 

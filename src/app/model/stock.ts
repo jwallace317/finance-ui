@@ -34,10 +34,10 @@ export class Stock {
     }
 
     get timestamp(): string {
-        return this._timestamp.
+        return this._timestamp;
     }
 
-    set timestamp(timestam: string) {
+    set timestamp(timestamp: string) {
         this._timestamp = timestamp;
     }
 

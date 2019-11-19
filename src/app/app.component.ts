@@ -1,69 +1,9 @@
-// import { Component, OnInit } from '@angular/core';
-// import { DatabaseService } from './database.service';
-// import { Component, NgZone } from "@angular/core";
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-//
-// am4core.useTheme(am4themes_animated);
-//
-// @Component({
-//   selector: 'app-root',
-//   templateUrl: './app.component.html',
-//   styleUrls: ['./app.component.css']
-// })
-// export class AppComponent {
-//   title = 'finance-ui';
-//   //
-//   // stocks: any = [];
-//   //
-//   // constructor(private database: DatabaseService) {}
-//   //
-//   // getStocks() {
-//   //     this.database.getStocks()
-//   //       .subscribe(data => {
-//   //           for (const d of (data as any)) {
-//   //               this.stocks.push({
-//   //                   symbol: d.symbol,
-//   //                   timestamp: d.timestamp,
-//   //                   open: d.open,
-//   //                   high: d.high,
-//   //                   low: d.low,
-//   //                   close: d.close,
-//   //                   volume: d.volume
-//   //               });
-//   //           }
-//   //
-//   //           console.log(this.stocks);
-//   //       });
-//   // }
-//   private chart: am4charts.XYChart;
-//
-//   constructor(private zone: NgZone) {}
-//
-//   ngAfterViewInit() {
-//       this.zone.runOutsideAngular(() => {
-//           let chart = am4core.create("chartdiv", am4charts.XYChart);
-//
-//           // ... chart code goes here ...
-//
-//           this.chart = chart;
-//       });
-//   }
-//
-//   ngOnDestroy() {
-//       this.zone.runOutsideAngular(() => {
-//           if (this.chart) {
-//               this.chart.dispose();
-//           }
-//       });
-//   }
-// }
-
-import { Component, NgZone } from "@angular/core";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { Component, NgZone } from '@angular/core';
+import { DatabaseService } from './database.service';
+import { Stock } from './stock';
+import * as am4core from '@amcharts/amcharts4/core';
+import * as am4charts from '@amcharts/amcharts4/charts';
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
 am4core.useTheme(am4themes_animated);
 
@@ -73,9 +13,10 @@ am4core.useTheme(am4themes_animated);
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
+
   private chart: am4charts.XYChart;
 
-  constructor(private zone: NgZone) {}
+  constructor(private database: DatabaseService, private zone: NgZone) {}
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
@@ -83,14 +24,41 @@ export class AppComponent {
 
       chart.paddingRight = 20;
 
-      let data = [];
-      let visits = 10;
-      for (let i = 1; i < 366; i++) {
-        visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-        data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
-      }
+      let stocks = []
+      this.database.getStocks()
+        .subscribe(data => {
+            for (const d of (data as any)) {
+                let stock = new Stock(
+                    d.symbol,
+                    d.timestamp,
+                    d.open,
+                    d.high,
+                    d.low,
+                    d.close,
+                    d.volume
+                )
+                console.log(stock)
 
-      chart.data = data;
+                // parse timestamp
+                let time_tokens = stock.timestamp.split(/-| |:/)
+                for (let i = 0; i < 6; i++) {
+                    console.log(time_tokens)
+                }
+
+                let year = time_tokens[0]
+                let month = time_tokens[1] - 1
+                let day = time_tokens[2]
+                let hour = time_tokens[3]
+                let minute = time_tokens[4]
+                let second = time_tokens[5]
+
+                stocks.push({ date: new Date(year, month, day, hour, minute, second), name: stock.symbol, value: stock.open });
+            }
+
+            console.log(stocks);
+        });
+
+      chart.data = stocks;
 
       let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.grid.template.location = 0;

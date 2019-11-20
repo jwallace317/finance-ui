@@ -20,7 +20,7 @@ export class AppComponent {
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      let chart = am4core.create('chartdiv', am4charts.XYChart);
+      let chart = am4core.create("chartdiv", am4charts.XYChart);
 
       chart.paddingRight = 20;
 

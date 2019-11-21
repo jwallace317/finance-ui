@@ -1,8 +1,8 @@
 <h3>Portfolio</h3>
 <div class="row">
-    <a href="#" class="list-group-item clearfix" *ngFor="let stock of stocks">
+    <button class="list-group-item clearfix" *ngFor="let stock of stocks" (click)="onSelect(stock)">
         <div class="pull-left">
             <h5 class="list-group-item-heading">{{ stock }}</h5>
         </div>
-    </a>
+    </button>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+    @Output() selectStock = new EventEmitter<string>();
+
     public stocks: string[] = ["NFLX", "MSFT", "SPOT", "COF", "AMD", "MDB", "GLUU", "ZM"];
 
   constructor() { }
@@ -13,4 +15,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSelect(stock: string) {
+      console.log(stock);
+      this.selectStock.emit(stock);
+  }
 }

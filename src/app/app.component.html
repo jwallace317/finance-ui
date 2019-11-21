@@ -1,14 +1,4 @@
-<app-header></app-header>
-<div class="row">
-    <div class="col-lg-9">
-        <app-graph></app-graph>
-    </div>
-    <div class="col-lg-2">
-        <app-dashboard></app-dashboard>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-7">
-        <app-about></app-about>
-    </div>
-</div>
+<app-header (tabSelect)="onSelectedTab($event)"></app-header>
+<app-stock *ngIf="currentTab === 'stock'"></app-stock>
+<app-cryptocurrency *ngIf="currentTab === 'cryptocurrency'"></app-cryptocurrency>
+<app-forex *ngIf="currentTab === 'forex'"></app-forex>

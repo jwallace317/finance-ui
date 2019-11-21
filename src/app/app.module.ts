@@ -8,6 +8,9 @@ import { HeaderComponent } from './header/header.component';
 import { GraphComponent } from './graph/graph.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AboutComponent } from './about/about.component';
+import { StockComponent } from './tabs/stock/stock.component';
+import { CryptocurrencyComponent } from './tabs/cryptocurrency/cryptocurrency.component';
+import { ForexComponent } from './tabs/forex/forex.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { AboutComponent } from './about/about.component';
     HeaderComponent,
     GraphComponent,
     DashboardComponent,
-    AboutComponent
+    AboutComponent,
+    StockComponent,
+    CryptocurrencyComponent,
+    ForexComponent
   ],
   imports: [
     BrowserModule,

@@ -11,4 +11,14 @@ am4core.useTheme(am4themes_animated);
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
-export class AppComponent {}
+export class AppComponent {
+
+    currentTab: string = "stock";
+
+    constructor() {}
+
+    onSelectedTab(stock: string) {
+        this.currentTab = stock;
+        console.log(this.currentTab);
+    }
+}

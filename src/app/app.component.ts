@@ -78,6 +78,7 @@ export class AppComponent {
 
         this.chart = chart;
     });
+    
   }
 
   ngOnDestroy() {

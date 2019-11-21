@@ -20,6 +20,7 @@ export class AppComponent {
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
         let chart = am4core.create("chartdiv", am4charts.XYChart);
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
         let stocks = [];
         this.database.getStocks()
@@ -37,12 +38,12 @@ export class AppComponent {
 
                     stocks.push({
                         date: new Date(stock.timestamp),
-                        //name: stock.symbol,
-                        value: stock.high
+                        open: stock.open,
+                        close: stock.close
                     });
                 }
             })
-            
+
         chart.data = stocks;
 
         // Create axes
@@ -50,20 +51,29 @@ export class AppComponent {
         dateAxis.renderer.minGridDistance = 60;
 
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.tooltip.disabled = true;
 
         // Create series
         let series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.valueY = "value";
         series.dataFields.dateX = "date";
-        series.tooltipText = "{value}"
+        series.dataFields.openValueY = "open";
+        series.dataFields.valueY = "close";
+        series.tooltipText = "open: {openValueY.value} close: {valueY.value}";
+        series.sequencedInterpolation = true;
+        series.fillOpacity = 0.3;
+        series.defaultState.transitionDuration = 1000;
+        series.tensionX = 0.8;
 
-        series.tooltip.pointerOrientation = "vertical";
+        let series2 = chart.series.push(new am4charts.LineSeries());
+        series2.dataFields.dateX = "date";
+        series2.dataFields.valueY = "open";
+        series2.sequencedInterpolation = true;
+        series2.defaultState.transitionDuration = 1500;
+        series2.stroke = chart.colors.getIndex(6);
+        series2.tensionX = 0.8;
 
         chart.cursor = new am4charts.XYCursor();
-        chart.cursor.snapToSeries = series;
         chart.cursor.xAxis = dateAxis;
-
-        //chart.scrollbarY = new am4core.Scrollbar();
         chart.scrollbarX = new am4core.Scrollbar();
 
         this.chart = chart;

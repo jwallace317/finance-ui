@@ -9,7 +9,7 @@ export class DatabaseService {
   private databaseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.databaseUrl = 'http://127.0.0.1:8080/stocks/all';
+    this.databaseUrl = 'http://127.0.0.1:8080/stocks/NFLX/sort';
   }
 
   public getStocks(): Observable<Stock[]> {

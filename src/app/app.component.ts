@@ -1,81 +1,72 @@
-import { Component, NgZone } from '@angular/core';
-import { DatabaseService } from './database.service';
-import { Stock } from './model/stock';
-import * as am4core from '@amcharts/amcharts4/core';
-import * as am4charts from '@amcharts/amcharts4/charts';
-import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { Component, NgZone } from "@angular/core";
+import { DatabaseService } from "./database.service";
+import { Stock } from "./model/stock";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-
   private chart: am4charts.XYChart;
 
   constructor(private database: DatabaseService, private zone: NgZone) {}
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
-      let chart = am4core.create("chartdiv", am4charts.XYChart);
+        let chart = am4core.create("chartdiv", am4charts.XYChart);
 
-      chart.paddingRight = 20;
+        let stocks = [];
+        this.database.getStocks()
+            .subscribe(data => {
+                for (const d of data) {
+                    let stock = new Stock(
+                        d.symbol,
+                        d.timestamp,
+                        d.open,
+                        d.high,
+                        d.low,
+                        d.close,
+                        d.volume
+                    )
 
-      let stocks = []
-      this.database.getStocks()
-        .subscribe(data => {
-            for (const d of (data as any)) {
-                let stock = new Stock(
-                    d.symbol,
-                    d.timestamp,
-                    d.open,
-                    d.high,
-                    d.low,
-                    d.close,
-                    d.volume
-                )
+                    stocks.push({
+                        date: new Date(stock.timestamp),
+                        //name: stock.symbol,
+                        value: stock.high
+                    });
+                }
+            })
+            
+        chart.data = stocks;
 
-                // parse timestamp
-                let time_tokens = stock.timestamp.split(/-| |:/);
+        // Create axes
+        let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.renderer.minGridDistance = 60;
 
-                let year = Number(time_tokens[0]);
-                let month = Number(time_tokens[1]) - 1;
-                let day = Number(time_tokens[2]);
-                let hour = Number(time_tokens[3]);
-                let minute = Number(time_tokens[4]);
-                let second = Number(time_tokens[5]);
+        let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-                stocks.push({ date: new Date(year, month, day, hour, minute, second), name: stock.symbol, value: stock.open });
-            }
-        });
+        // Create series
+        let series = chart.series.push(new am4charts.LineSeries());
+        series.dataFields.valueY = "value";
+        series.dataFields.dateX = "date";
+        series.tooltipText = "{value}"
 
-      console.log('hello')
-      console.log(stocks)
+        series.tooltip.pointerOrientation = "vertical";
 
-      chart.data = stocks;
+        chart.cursor = new am4charts.XYCursor();
+        chart.cursor.snapToSeries = series;
+        chart.cursor.xAxis = dateAxis;
 
-      let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-      dateAxis.renderer.grid.template.location = 0;
+        //chart.scrollbarY = new am4core.Scrollbar();
+        chart.scrollbarX = new am4core.Scrollbar();
 
-      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis.tooltip.disabled = true;
-      valueAxis.renderer.minWidth = 35;
-
-      let series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.dateX = "date";
-      series.dataFields.valueY = "value";
-
-      series.tooltipText = "{valueY.value}";
-      chart.cursor = new am4charts.XYCursor();
-
-      let scrollbarX = new am4charts.XYChartScrollbar();
-      scrollbarX.series.push(series);
-      chart.scrollbarX = scrollbarX;
-
-      this.chart = chart;
+        this.chart = chart;
     });
   }
 

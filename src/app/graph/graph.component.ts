@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from "@angular/core";
-import { DatabaseService } from "../database.service";
+import { DatabaseService } from "../services/database.service";
 import { Stock } from "../model/stock";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -29,7 +29,7 @@ export class GraphComponent implements OnInit {
         chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
         let stocks = [];
-        this.database.getStocks()
+        this.database.getStocks("GLUU")
             .subscribe(data => {
                 for (const d of data) {
                     let stock = new Stock(

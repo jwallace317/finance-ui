@@ -7,11 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StockComponent implements OnInit {
 
-    currentStock: string;
+    currentStock: string = "GLUU";
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getCurrentStock() {
+      return this.currentStock;
   }
 
   OnSelectedStock(stock: string) {

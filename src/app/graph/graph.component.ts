@@ -15,11 +15,10 @@ am4core.useTheme(am4themes_animated);
 export class GraphComponent implements OnInit {
     @Input() stockSymbol: string;
 
-    // public stockSymbol: string = "NFLX";
-
     private chart: am4charts.XYChart;
 
-  constructor(private database: DatabaseService, private zone: NgZone) {}
+  constructor(private database: DatabaseService, private zone: NgZone) {
+  }
 
   ngOnInit() {
   }
@@ -30,7 +29,7 @@ export class GraphComponent implements OnInit {
         chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
         let stocks = [];
-        this.database.getStocks("GLUU")
+        this.database.getStocks(this.stockSymbol)
             .subscribe(data => {
                 for (const d of data) {
                     let stock = new Stock(

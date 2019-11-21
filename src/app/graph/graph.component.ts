@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit, Input } from "@angular/core";
 import { DatabaseService } from "../services/database.service";
 import { Stock } from "../model/stock";
 import * as am4core from "@amcharts/amcharts4/core";
@@ -13,8 +13,9 @@ am4core.useTheme(am4themes_animated);
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnInit {
+    @Input() stockSymbol: string;
 
-    public stockSymbol: string = "NFLX";
+    // public stockSymbol: string = "NFLX";
 
     private chart: am4charts.XYChart;
 

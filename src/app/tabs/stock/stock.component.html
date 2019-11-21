@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-9">
-        <app-graph></app-graph>
+        <app-graph [stockSymbol]="currentStock"></app-graph>
     </div>
     <div class="col-lg-2">
         <app-dashboard (selectStock)="OnSelectedStock($event)" ></app-dashboard>

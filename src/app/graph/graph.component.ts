@@ -50,6 +50,7 @@ export class GraphComponent implements OnInit {
                 }
             })
 
+        console.log(stocks);
         chart.data = stocks;
 
         // Create axes

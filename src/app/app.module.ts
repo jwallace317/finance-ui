@@ -8,9 +8,10 @@ import { HeaderComponent } from './header/header.component';
 import { GraphComponent } from './graph/graph.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AboutComponent } from './about/about.component';
-import { StockComponent } from './tabs/stock/stock.component';
-import { CryptocurrencyComponent } from './tabs/cryptocurrency/cryptocurrency.component';
-import { ForexComponent } from './tabs/forex/forex.component';
+import { StockComponent } from './stock/stock.component';
+import { CryptocurrencyComponent } from './cryptocurrency/cryptocurrency.component';
+import { ForexComponent } from './forex/forex.component';
+import { IngestionComponent } from './ingestion/ingestion.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ForexComponent } from './tabs/forex/forex.component';
     AboutComponent,
     StockComponent,
     CryptocurrencyComponent,
-    ForexComponent
+    ForexComponent,
+    IngestionComponent
   ],
   imports: [
     BrowserModule,

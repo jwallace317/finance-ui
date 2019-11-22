@@ -24,4 +24,8 @@ export class HeaderComponent implements OnInit {
   onForexTabSelect() {
       this.tabSelect.emit("forex");
   }
+
+  onIngestionTabSelect() {
+      this.tabSelect.emit("ingestion")
+  }
 }

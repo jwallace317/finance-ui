@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormControl } from '@angular/forms'
-import { IngestionService } from '../services/ingestion.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +14,7 @@ export class DashboardComponent implements OnInit {
 
     newStock = new FormControl('');
 
-  constructor(private ingestion: IngestionService) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -27,8 +26,7 @@ export class DashboardComponent implements OnInit {
 
   addNewStock() {
       console.log(this.newStock.value);
-      this.ingestion.ingestStocks(this.newStock.value, 'TIME_SERIES_INTRADAY', '1min', 'compact');
-
-
+      this.selectStock.emit(this.newStock.value);
+      this.stocks.push(this.newStock.value);
   }
 }

@@ -5,4 +5,8 @@
             <h5 class="list-group-item-heading">{{ stock }}</h5>
         </div>
     </button>
+    <p></p>
+    <label>
+      Add Stock <input type="text" [formControl]="newStock" (keydown.enter)="addNewStock()">
+    </label>
 </div>

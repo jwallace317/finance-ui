@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, Input } from "@angular/core";
+import { Component, NgZone, OnInit, Input, OnChanges } from "@angular/core";
 import { DatabaseService } from "../services/database.service";
 import { Stock } from "../model/stock";
 import * as am4core from "@amcharts/amcharts4/core";
@@ -12,10 +12,12 @@ am4core.useTheme(am4themes_animated);
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent implements OnInit, OnChanges {
     @Input() stockSymbol: string;
 
-    private chart: am4charts.XYChart;
+    stocks: [{ date: Date, open: number, close: number }];
+
+    chart: am4charts.XYChart;
 
   constructor(private database: DatabaseService, private zone: NgZone) {
   }
@@ -32,7 +34,7 @@ export class GraphComponent implements OnInit {
         this.database.getStocks(this.stockSymbol)
             .subscribe(data => {
                 for (const d of data) {
-                    let stock = new Stock(
+                    var stock = new Stock(
                         d.symbol,
                         d.timestamp,
                         d.open,
@@ -42,7 +44,7 @@ export class GraphComponent implements OnInit {
                         d.volume
                     )
 
-                    stocks.push({
+                        stocks.push({
                         date: new Date(stock.timestamp),
                         open: stock.open,
                         close: stock.close
@@ -85,6 +87,11 @@ export class GraphComponent implements OnInit {
 
         this.chart = chart;
     });
+  }
+
+  ngOnChanges() {
+      console.log('ngChanges fired');
+      console.log(this.stockSymbol);
   }
 
   ngOnDestroy() {

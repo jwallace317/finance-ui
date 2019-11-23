@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { DatabaseService } from '../services/database.service';
 
 @Component({
   selector: 'app-ingestion',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ingestion.component.css']
 })
 export class IngestionComponent implements OnInit {
+    public symbol = new FormControl('');
 
-  constructor() { }
+    public function = new FormControl('');
+
+    public interval = new FormControl('');
+
+    public outputSize = new FormControl('');
+
+  constructor(private database: DatabaseService) { }
 
   ngOnInit() {
   }
 
+  onIngest() {
+      this.database.ingestStocks(this.symbol.value, this.function.value, this.interval.value, this.outputSize.value);
+  }
 }

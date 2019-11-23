@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StockComponent implements OnInit {
 
-    currentStock: string = "GLUU";
+    currentStock: string = "MSFT";
 
   constructor() { }
 

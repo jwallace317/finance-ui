@@ -1,1 +1,29 @@
-<p>ingestion works!</p>
+<h1>Ingestion</h1>
+<hr>
+<div class="row">
+    <div class="col-xs-12">
+        <label>
+            Symbol <input type="text" [formControl]="symbol">
+        </label>
+    </div>
+    <div class="col-xs-12">
+        <label>
+            Function <input type="text" [formControl]="function">
+        </label>
+    </div>
+    <div class="col-xs-12">
+        <label>
+            Interval <input type="text" [formControl]="interval">
+        </label>
+    </div>
+    <div class="col-xs-12">
+        <label>
+            Output Size <input type="text" [formControl]="outputSize">
+        </label>
+    </div>
+    <div class="col-xs-12">
+        <p>
+            <button (click)="onIngest()">Ingest</button>
+        </p>
+    </div>
+</div>

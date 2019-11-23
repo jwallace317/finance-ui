@@ -13,7 +13,25 @@ export class DatabaseService {
   }
 
   public getStocks(symbol: string): Observable<Stock[]> {
-      this.databaseUrl = 'http://127.0.0.1:8080/stocks/' + symbol + '/sort';
+      this.databaseUrl = 'http://127.0.0.1:8080/stocks/' + symbol + '/sorted';
+      console.log(this.databaseUrl);
     return this.http.get<Stock[]>(this.databaseUrl);
+  }
+
+  public ingestStocks(symbol: string, functionStr: string, interval: string, outputSize: string) {
+      console.log('in ingest stocks method');
+      console.log(symbol);
+      console.log(functionStr);
+      console.log(interval);
+      console.log(outputSize);
+      this.databaseUrl = 'http://127.0.0.1:8081/ingest/stocks/'
+        + functionStr + '/'
+        + symbol + '/'
+        + interval + '/'
+        + outputSize;
+
+        console.log(this.databaseUrl);
+
+        this.http.get(this.databaseUrl);
   }
 }

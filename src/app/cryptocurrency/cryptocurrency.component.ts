@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CryptocurrencyComponent implements OnInit {
 
+    public crypto: string = 'BTC';
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getCurrentCrypto() {
+      return this.crypto;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, NgZone, OnInit, Input, OnChanges } from "@angular/core";
 import { DatabaseService } from "../services/database.service";
 import { Stock } from "../model/stock";
+import { Cryptocurrency } from '../model/cryptocurrency';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -30,30 +31,55 @@ export class GraphComponent implements OnInit, OnChanges {
         let chart = am4core.create("chartdiv", am4charts.XYChart);
         chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-        let stocks = [];
-        this.database.getStocks(this.stockSymbol)
-            .subscribe(data => {
-                for (const d of data) {
-                    var stock = new Stock(
-                        d.symbol,
-                        d.timestamp,
-                        d.open,
-                        d.high,
-                        d.low,
-                        d.close,
-                        d.volume
-                    )
+        // let stocks = [];
+        // this.database.getStocks(this.stockSymbol)
+        //     .subscribe(data => {
+        //         for (const d of data) {
+        //             var stock = new Stock(
+        //                 d.symbol,
+        //                 d.timestamp,
+        //                 d.open,
+        //                 d.high,
+        //                 d.low,
+        //                 d.close,
+        //                 d.volume
+        //             )
+        //
+        //                 stocks.push({
+        //                 date: new Date(stock.timestamp),
+        //                 open: stock.open,
+        //                 close: stock.close
+        //             });
+        //         }
+        //     })
+        //
+        // console.log(stocks);
+        // chart.data = stocks;
 
-                        stocks.push({
-                        date: new Date(stock.timestamp),
-                        open: stock.open,
-                        close: stock.close
-                    });
-                }
-            })
+        let cryptos = [];
+        this.database.getCryptos(this.stockSymbol).subscribe(data => {
+            for (const d of data) {
+                var crypto = new Cryptocurrency(
+                    d.symbol,
+                    d.timestamp,
+                    d.open,
+                    d.high,
+                    d.low,
+                    d.close,
+                    d.volume,
+                    d.marketCap
+                )
 
-        console.log(stocks);
-        chart.data = stocks;
+                cryptos.push({
+                    date: new Date(crypto.timestamp),
+                    open: crypto.open,
+                    close: crypto.close
+                });
+            }
+        })
+
+        console.log(cryptos);
+        chart.data = cryptos;
 
         // Create axes
         let dateAxis = chart.xAxes.push(new am4charts.DateAxis());

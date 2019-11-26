@@ -40,9 +40,13 @@ export class GraphComponent implements OnInit, OnChanges {
 
         // Create axes
         let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.title.text = 'Date (Eastern Standard Time)';
+        dateAxis.title.fontWeight = 'bold';
         dateAxis.renderer.minGridDistance = 60;
 
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.title.text = 'USD ($)';
+        valueAxis.title.fontWeight = "bold";
         valueAxis.tooltip.disabled = true;
 
         // Create series

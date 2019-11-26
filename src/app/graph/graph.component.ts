@@ -60,15 +60,8 @@ export class GraphComponent implements OnInit, OnChanges {
         chart.dataSource.parser = new am4core.JSONParser();
         chart.dataSource.parser.options.dateFields = ['timestamp'];
         chart.dataSource.parser.options.dateFormat = 'YYYY-MM-DDTHH:mm:ss.sssZ';
-        // chart.dataSource.parser.options.dateFormatter = new am4core.DateFormatter();
-        // chart.dataSource.parser.options.dateFormatter.dateFormat = 'yyyy-MM-DDTHH:mm:ss.sssZ';
         chart.dataSource.parser.options.numberFields = ['open', 'close'];
         chart.dataSource.load();
-
-        var dateFormatter = new am4core.DateFormatter();
-        dateFormatter.dateFormat = 'yyyy-MM-DDTHH:mm:ss.sssZ'
-
-        console.log("this is important: " + dateFormatter.parse("2019-11-22T19:21:00.000+0000"));
 
         // Create axes
         let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -105,32 +98,6 @@ export class GraphComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-      // console.log('graph component ngOnChanges() method: ' + this.stockSymbol);
-      // let stocks = [];
-      // this.database.getStocks(this.stockSymbol)
-      //     .subscribe(data => {
-      //         for (const d of data) {
-      //             var stock = new Stock(
-      //                 d.symbol,
-      //                 d.timestamp,
-      //                 d.open,
-      //                 d.high,
-      //                 d.low,
-      //                 d.close,
-      //                 d.volume
-      //             )
-      //
-      //                 stocks.push({
-      //                 date: new Date(stock.timestamp),
-      //                 open: stock.open,
-      //                 close: stock.close
-      //             });
-      //         }
-      //     })
-      //
-      // console.log(stocks);
-      // this.chart.data = stocks;
-
       this.chart.dataSource.url = 'http://127.0.0.1:8080/stocks/' + this.stockSymbol + '/sorted';
       this.chart.dataSource.load();
   }

@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
 
     newStock = new FormControl('');
 
+    deleteStock = new FormControl('');
+
   constructor() { }
 
   ngOnInit() {
@@ -24,9 +26,19 @@ export class DashboardComponent implements OnInit {
       this.selectStock.emit(stock);
   }
 
-  addNewStock() {
+  onAddNewStock() {
       console.log(this.newStock.value);
       this.selectStock.emit(this.newStock.value);
       this.stocks.push(this.newStock.value);
+      this.newStock.setValue("");
+  }
+
+  onDeleteStock() {
+      console.log(this.deleteStock.value);
+      var index = this.stocks.indexOf(this.deleteStock.value);
+      if (index > -1) {
+          this.stocks.splice(index, 1);
+          this.deleteStock.setValue("");
+      }
   }
 }

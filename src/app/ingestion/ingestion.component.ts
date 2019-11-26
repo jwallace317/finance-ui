@@ -20,4 +20,6 @@ export class IngestionComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  onIngest() { }
 }

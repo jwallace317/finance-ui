@@ -7,6 +7,10 @@
     </button>
     <p></p>
     <label>
-      Add Stock <input type="text" [formControl]="newStock" (keydown.enter)="addNewStock()">
+      Add Stock <input type="text" [formControl]="newStock" (keydown.enter)="onAddNewStock()">
+    </label>
+    <p></p>
+    <label>
+      Delete Stock <input type="text" [formControl]="deleteStock" (keydown.enter)="onDeleteStock()">
     </label>
 </div>

@@ -40,7 +40,6 @@ export class AboutComponent implements OnInit {
     public yearLow: string = "not available";
 
   constructor(private database: DatabaseService) {
-      console.log('from about component stock: ' + this.stockSymbol);
   }
 
   ngOnInit() { }

@@ -116,7 +116,31 @@ export class GraphComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-      console.log(this.stockSymbol);
+      console.log('graph component ngOnChanges() method: ' + this.stockSymbol);
+      let stocks = [];
+      this.database.getStocks(this.stockSymbol)
+          .subscribe(data => {
+              for (const d of data) {
+                  var stock = new Stock(
+                      d.symbol,
+                      d.timestamp,
+                      d.open,
+                      d.high,
+                      d.low,
+                      d.close,
+                      d.volume
+                  )
+
+                      stocks.push({
+                      date: new Date(stock.timestamp),
+                      open: stock.open,
+                      close: stock.close
+                  });
+              }
+          })
+
+      console.log(stocks);
+      //this.chart.data = stocks;
   }
 
   ngOnDestroy() {

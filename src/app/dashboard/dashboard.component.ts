@@ -10,7 +10,7 @@ export class DashboardComponent implements OnInit {
 
     @Output() selectStock = new EventEmitter<string>();
 
-    public stocks: string[] = ["NFLX", "MSFT", "SPOT", "COF", "AMD", "MDB", "GLUU", "ZM"];
+    public stocks: string[] = ["NFLX", "MSFT", "SPOT", "COF", "TSLA"];
 
     newStock = new FormControl('');
 

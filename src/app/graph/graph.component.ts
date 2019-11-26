@@ -31,31 +31,6 @@ export class GraphComponent implements OnInit, OnChanges {
         let chart = am4core.create("chartdiv", am4charts.XYChart);
         chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-        // let stocks = [];
-        // this.database.getStocks(this.stockSymbol)
-        //     .subscribe(data => {
-        //         for (const d of data) {
-        //             var stock = new Stock(
-        //                 d.symbol,
-        //                 d.timestamp,
-        //                 d.open,
-        //                 d.high,
-        //                 d.low,
-        //                 d.close,
-        //                 d.volume
-        //             )
-        //
-        //                 stocks.push({
-        //                 date: new Date(stock.timestamp),
-        //                 open: stock.open,
-        //                 close: stock.close
-        //             });
-        //         }
-        //     })
-        //
-        // console.log(stocks);
-        // chart.data = stocks;
-
         chart.dataSource.url = 'http://127.0.0.1:8080/stocks/' + this.stockSymbol + '/sorted';
         chart.dataSource.parser = new am4core.JSONParser();
         chart.dataSource.parser.options.dateFields = ['timestamp'];

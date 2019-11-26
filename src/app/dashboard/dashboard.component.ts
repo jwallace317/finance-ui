@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onSelect(stock: string) {
-      console.log(stock);
+      console.log('onSelect(): ' + stock);
       this.selectStock.emit(stock);
   }
 

@@ -56,31 +56,6 @@ export class GraphComponent implements OnInit, OnChanges {
         console.log(stocks);
         chart.data = stocks;
 
-        // let cryptos = [];
-        // this.database.getCryptos(this.stockSymbol).subscribe(data => {
-        //     for (const d of data) {
-        //         var crypto = new Cryptocurrency(
-        //             d.symbol,
-        //             d.timestamp,
-        //             d.open,
-        //             d.high,
-        //             d.low,
-        //             d.close,
-        //             d.volume,
-        //             d.marketCap
-        //         )
-        //
-        //         cryptos.push({
-        //             date: new Date(crypto.timestamp),
-        //             open: crypto.open,
-        //             close: crypto.close
-        //         });
-        //     }
-        // })
-        //
-        // console.log(cryptos);
-        // chart.data = cryptos;
-
         // Create axes
         let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
         dateAxis.renderer.minGridDistance = 60;
@@ -139,7 +114,7 @@ export class GraphComponent implements OnInit, OnChanges {
               }
           })
 
-      console.log(stocks);
+      // console.log(stocks);
       //this.chart.data = stocks;
   }
 

@@ -31,30 +31,44 @@ export class GraphComponent implements OnInit, OnChanges {
         let chart = am4core.create("chartdiv", am4charts.XYChart);
         chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-        let stocks = [];
-        this.database.getStocks(this.stockSymbol)
-            .subscribe(data => {
-                for (const d of data) {
-                    var stock = new Stock(
-                        d.symbol,
-                        d.timestamp,
-                        d.open,
-                        d.high,
-                        d.low,
-                        d.close,
-                        d.volume
-                    )
+        // let stocks = [];
+        // this.database.getStocks(this.stockSymbol)
+        //     .subscribe(data => {
+        //         for (const d of data) {
+        //             var stock = new Stock(
+        //                 d.symbol,
+        //                 d.timestamp,
+        //                 d.open,
+        //                 d.high,
+        //                 d.low,
+        //                 d.close,
+        //                 d.volume
+        //             )
+        //
+        //                 stocks.push({
+        //                 date: new Date(stock.timestamp),
+        //                 open: stock.open,
+        //                 close: stock.close
+        //             });
+        //         }
+        //     })
+        //
+        // console.log(stocks);
+        // chart.data = stocks;
 
-                        stocks.push({
-                        date: new Date(stock.timestamp),
-                        open: stock.open,
-                        close: stock.close
-                    });
-                }
-            })
+        chart.dataSource.url = 'http://127.0.0.1:8080/stocks/' + this.stockSymbol + '/sorted';
+        chart.dataSource.parser = new am4core.JSONParser();
+        chart.dataSource.parser.options.dateFields = ['timestamp'];
+        chart.dataSource.parser.options.dateFormat = 'YYYY-MM-DDTHH:mm:ss.sssZ';
+        // chart.dataSource.parser.options.dateFormatter = new am4core.DateFormatter();
+        // chart.dataSource.parser.options.dateFormatter.dateFormat = 'yyyy-MM-DDTHH:mm:ss.sssZ';
+        chart.dataSource.parser.options.numberFields = ['open', 'close'];
+        chart.dataSource.load();
 
-        console.log(stocks);
-        chart.data = stocks;
+        var dateFormatter = new am4core.DateFormatter();
+        dateFormatter.dateFormat = 'yyyy-MM-DDTHH:mm:ss.sssZ'
+
+        console.log("this is important: " + dateFormatter.parse("2019-11-22T19:21:00.000+0000"));
 
         // Create axes
         let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -65,7 +79,7 @@ export class GraphComponent implements OnInit, OnChanges {
 
         // Create series
         let series = chart.series.push(new am4charts.LineSeries());
-        series.dataFields.dateX = "date";
+        series.dataFields.dateX = "timestamp";
         series.dataFields.openValueY = "open";
         series.dataFields.valueY = "close";
         series.tooltipText = "open: {openValueY.value} close: {valueY.value}";
@@ -75,7 +89,7 @@ export class GraphComponent implements OnInit, OnChanges {
         series.tensionX = 0.8;
 
         let series2 = chart.series.push(new am4charts.LineSeries());
-        series2.dataFields.dateX = "date";
+        series2.dataFields.dateX = "timestamp";
         series2.dataFields.valueY = "open";
         series2.sequencedInterpolation = true;
         series2.defaultState.transitionDuration = 1500;
@@ -91,31 +105,34 @@ export class GraphComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-      console.log('graph component ngOnChanges() method: ' + this.stockSymbol);
-      let stocks = [];
-      this.database.getStocks(this.stockSymbol)
-          .subscribe(data => {
-              for (const d of data) {
-                  var stock = new Stock(
-                      d.symbol,
-                      d.timestamp,
-                      d.open,
-                      d.high,
-                      d.low,
-                      d.close,
-                      d.volume
-                  )
-
-                      stocks.push({
-                      date: new Date(stock.timestamp),
-                      open: stock.open,
-                      close: stock.close
-                  });
-              }
-          })
-
+      // console.log('graph component ngOnChanges() method: ' + this.stockSymbol);
+      // let stocks = [];
+      // this.database.getStocks(this.stockSymbol)
+      //     .subscribe(data => {
+      //         for (const d of data) {
+      //             var stock = new Stock(
+      //                 d.symbol,
+      //                 d.timestamp,
+      //                 d.open,
+      //                 d.high,
+      //                 d.low,
+      //                 d.close,
+      //                 d.volume
+      //             )
+      //
+      //                 stocks.push({
+      //                 date: new Date(stock.timestamp),
+      //                 open: stock.open,
+      //                 close: stock.close
+      //             });
+      //         }
+      //     })
+      //
       // console.log(stocks);
-      //this.chart.data = stocks;
+      // this.chart.data = stocks;
+
+      this.chart.dataSource.url = 'http://127.0.0.1:8080/stocks/' + this.stockSymbol + '/sorted';
+      this.chart.dataSource.load();
   }
 
   ngOnDestroy() {

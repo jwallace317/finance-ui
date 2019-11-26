@@ -20,8 +20,4 @@ export class IngestionComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  onIngest() {
-      this.database.ingestStocks(this.symbol.value, this.function.value, this.interval.value, this.outputSize.value);
-  }
 }
